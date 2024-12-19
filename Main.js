@@ -68,7 +68,7 @@ const Main = () => {
   return (
     <View style={styles.container}>
       {results.length == 0 &&
-          <Text style={styles.title}>Search for a Movie:</Text>
+        <Text style={styles.title}>Search for a Movie:</Text>
         }    
         <TextInput name='searchText'
           style={styles.searchBar}
@@ -99,11 +99,6 @@ const Main = () => {
         </ScrollView>   
 
          
-
-    
-
-
-
         
     </View>
   );
