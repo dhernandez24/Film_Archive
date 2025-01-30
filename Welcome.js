@@ -12,40 +12,22 @@ import {
   TextInput
 
 } from 'react-native';
-import { initializeApp,getApp,getApps } from 'firebase/app';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, signInWithEmailAndPassword,getReactNativePersistence } from "firebase/auth";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from './src/config/.env'; 
 
-
-const firebaseConfig = {
-  apiKey: "...",
-  authDomain: "...",
-  projectId: "...",
-  storageBucket: "...",
-  messagingSenderId: "...",
-  appId: "..."
-};
 
 const Separator = () => <View style={styles.separator} />;
 
 const Welcome = () => {  
-  const navigation = useNavigation();
-  
-  let app;
-  if (!getApps().length) {     
-    app = initializeApp(firebaseConfig);
-  }else{   
-    app = getApp();
-  }
-  const auth = getAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const navigation = useNavigation();
   const login = async () => {
-    const auth = getAuth();
+    
     try {
-      //console.log(email);
+     
       await signInWithEmailAndPassword(auth, email, password);
       navigation.navigate('Main');
        
