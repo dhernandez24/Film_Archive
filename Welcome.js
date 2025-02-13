@@ -14,8 +14,10 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from './src/config/.env'; 
 
+//import {FIREBASE_API_KEY} from "@env";
+
+console.log('variables?', process.env.FIREBASE_API_KEY);
 
 const Separator = () => <View style={styles.separator} />;
 
