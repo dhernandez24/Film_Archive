@@ -16,34 +16,66 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native'; 
+import FirebaseAuth from './firebase-auth-controller';
+
+
 const Separator = () => <View style={styles.separator} />; 
 const Separator2 = () => <View style={styles.separator2} />; 
 const SignUp = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false); 
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false); 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert('Passwords do not match!');
+      return;
+    }
+
+    try {
+      const result = await FirebaseAuth.registerUser(email, password);
+      Alert.alert(result.message); // Show success message
+    } catch (error) {
+      Alert.alert(error.message); // Show error message
+    }
+  };
+
+
   return (
     <SafeAreaView style={styles.container}>
+      
     <Separator /> 
       <Text style={styles.title}> Sign Up </Text>
        <Separator2 />
         <Text style={styles.subtitle}> Please Enter Your Details </Text>   
- 
       <Separator /> 
       <View style={styles.SignUp}></View>
       <Text style={styles.fixToText2}> Full Name: </Text>
       <TextInput
         style={styles.login}
+        placeholder="Enter your name"
       />
       <Text style={styles.fixToText2}> Email: </Text>
       <TextInput
-        style={styles.login}  
+        style={styles.login}
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        placeholder="Enter your email"
       />
       <Text style={styles.fixToText2}> Password: </Text>
      <View style={styles.passwordContainer}>
-        <TextInput
+      
+     <TextInput
           style={styles.login}
-          secureTextEntry={!passwordVisible} 
+          secureTextEntry={!passwordVisible}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Enter your password"
         />
+
         <TouchableOpacity
           onPress={() => setPasswordVisible(!passwordVisible)} 
           style={styles.showHideButton}
@@ -54,9 +86,12 @@ const SignUp = () => {
 
       <Text style={styles.fixToText2}> Confirm Password: </Text>
       <View style={styles.passwordContainer}>
-        <TextInput
+      <TextInput
           style={styles.login}
-          secureTextEntry={!confirmPasswordVisible} 
+          secureTextEntry={!confirmPasswordVisible}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholder="Confirm your password"
         />
         <TouchableOpacity
           onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)} 

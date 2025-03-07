@@ -13,12 +13,22 @@ import {
 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 
-//import {FIREBASE_API_KEY} from "@env";
 
+import FirebaseAuth from './firebase-auth-controller';
+
+/*
+console.log(FirebaseAuth);
 console.log('variables?', process.env.FIREBASE_API_KEY);
+console.log('variables?', process.env.FIREBASE_AUTH_DOMAIN);
+console.log('variables?', process.env.FIREBASE_PROJECT_ID);
+console.log('variables?', process.env.FIREBASE_STORAGE_BUCKET);
+console.log('variables?', process.env.FIREBASE_MESSAGING_SENDER_ID);
+console.log('variables?', process.env.FIREBASE_APP_ID);
 
+
+console.log('variables?', process.env.TMDB_BEARER_TOKEN);
+*/
 const Separator = () => <View style={styles.separator} />;
 
 const Welcome = () => {  
@@ -30,7 +40,7 @@ const Welcome = () => {
     
     try {
      
-      await signInWithEmailAndPassword(auth, email, password);
+      await FirebaseAuth.loginUser(email, password);
       navigation.navigate('Main');
        
     } catch (error) {
@@ -58,6 +68,7 @@ return (
     <TextInput
       style={styles.login}
       value={email}
+      placeholder="Enter your email"
      onChangeText={setEmail}
      />
 
@@ -66,6 +77,7 @@ return (
     <TextInput
       style={styles.login}
       value={password}
+      placeholder="Enter your password"
       onChangeText={setPassword}
       secureTextEntry={!passwordVisible} 
       />
@@ -76,7 +88,9 @@ return (
       <Text>{passwordVisible ? 'Hide' : 'Show'}</Text>
       </TouchableOpacity>
       </View>
-
+      <TouchableOpacity  style={styles.forgotPasswordButton}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </TouchableOpacity>
       <Separator /> 
       <TouchableOpacity
         style={styles.button}
@@ -109,12 +123,12 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 17,
      marginVertical: 5,
   },
   fixToText2: {
     width: '100%',
-    fontSize: 15
+    fontSize: 16
   
   },
   button: {
@@ -130,7 +144,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
   },
   separator: {
     marginVertical: 20,
@@ -160,7 +174,17 @@ const styles = StyleSheet.create({
   createAccountText: {
     color: 'blue',
     textDecorationLine: 'underline',
-    fontSize: 16,
+    fontSize: 17,
+  },
+  forgotPasswordButton: {
+    marginTop: 10,
+    width: '90%',
+    alignItems: 'center',
+  },
+  forgotPasswordText: {
+    color: 'blue',
+    fontSize: 15,
+    textDecorationLine: 'underline',
   },
   showHideButton: {
     position: 'absolute',

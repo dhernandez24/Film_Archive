@@ -16,9 +16,10 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { TMDB_BEARER_TOKEN } from '@env';
 
 const Separator2 = () => <View style={styles.separator2} />;
-const Separator3 = () => <View style={styles.separator3} />;
+const SeparatorColor = () => <View style={styles.separatorColor} />;
 
 
 const searchForMovie = async (searchText) => {
@@ -30,17 +31,18 @@ const searchForMovie = async (searchText) => {
     method: 'GET',
     headers: {
       accept: 'application/json',
-     Authorization: 'Bearer ....'
+     Authorization: `Bearer ${TMDB_BEARER_TOKEN}`
     }
   };
-
+  
   let json = await fetch(url, options)
     .then(res => res.json());
     
 
-  console.log(json);
+  //console.log(json);
 
   return json.results;
+  
 }
 
 const Main = () => { 
@@ -68,26 +70,32 @@ const Main = () => {
   return (
     <View style={styles.container}>
       {results.length == 0 &&
-        <Text style={styles.title}>Search for a Movie:</Text>
+        <Text style={styles.title}>Search</Text>
         }    
         <TextInput name='searchText'
           style={styles.searchBar}
           onChangeText={newText => setText(newText)}
           defaultValue={text}
           placeholder="Type a movie name..."
-        />
-        <Button
-          style={styles.button}
-          title="Search"
-          onPress={() => {
+          returnKeyType="search"
+          onSubmitEditing={() => {
             searchForMovie(text).then((results) => {
               setResults(results);
             });
+        }}
+        onKeyPress={(e) => {
+          if (e.nativeEvent.key === 'Enter') {
+            searchForMovie(text).then((results) => {
+              setResults(results);
+            });
+          }
+        }}
 
-          }}
         />
-        <Separator3 /> 
-        <ScrollView>
+        
+          
+        
+        <SeparatorColor />
           <FlatList
             data={results}
             keyExtractor={(item) => item.id.toString()}
@@ -95,10 +103,6 @@ const Main = () => {
           />
           <Separator2 />
           <Text style={styles.subtitle}> Rated Movies: </Text> 
-
-        </ScrollView>   
-
-         
         
     </View>
   );
@@ -113,10 +117,13 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontWidth: 'bold',
-    textAlign: 'center',
-    fontSize: 25,
-    marginVertical: 30,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    paddingLeft: 5,
+    fontSize: 27,
+    marginVertical: 15,
+    marginTop: 20,
     
   },
   subtitle: {
@@ -124,26 +131,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
      marginVertical: 5,
   },
-  button: {
-      bottom: 20,
-      width: '90%',
-      borderWidth: 2,
-      borderRadius: 15,
-      borderColor: 'black',
-      backgroundColor: 'black',
-      alignItems: 'center',
-      padding: 10,
-      marginTop: 10,
-  },
   searchBar: {
     height: 40,
-    width: '90%',
+    width: '100%',
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginVertical: 10,
     backgroundColor: 'white',
+    marginBottom: 15,
+    
   },
 
   listItem: {
@@ -164,18 +161,23 @@ const styles = StyleSheet.create({
   },
 
   listItemDate: {
-    fontFamily: "Lucida Console", 
+
     fontSize: 15,
  
-
   },
 
   separator2: {
     marginVertical: 60,
     
   },
-  separator3: {
-  marginVertical: 5,
+  separatorColor: {
+    width: '100%',
+    marginVertical: 5,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    alignSelf: 'center',
+    
+
 
   },
  

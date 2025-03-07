@@ -15,14 +15,14 @@ import {
 
  
 const Separator = () => <View style={styles.separator} />;
-const Separator2 = () => <View style={styles.separator} />;
+const Separator2 = () c=> <View style={styles.separator} />;
 
 import { useNavigation } from '@react-navigation/native';
 
 
 const Information = ({ route }) => {
-  console.log("On info page: ");
-  console.log(route.params.item);
+  //console.log("On info page: ");
+  //console.log(route.params.item);
   const currentMovie = route.params.item;
   const posterUrl = `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`;
   const starRatingOptions = [1, 2, 3, 4, 5];
@@ -69,8 +69,7 @@ const navigation = useNavigation();
           <Text style={styles.title}>{ currentMovie.overview }</Text>
       </ScrollView> 
       <Separator2 />
-        <Text style={styles.text2}>{ currentMovie.original_title }</Text>
-        <Text style={styles.heading}>{starRating ? ` Rating: ${starRating}`: 'Tap to rate'}</Text>
+        <Text style={styles.heading}>{starRating ? ` Rating:`: 'Tap to rate'}</Text>
 
           <View style={styles.stars}>
             {starRatingOptions.map((option) => (
@@ -120,26 +119,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlign: 'left',
     justifyContent: 'space-between',
-    paddingLeft: 10,
-    fontSize: 15,
-    marginVertical: 2, 
-   
+    fontSize: 17,
+    marginVertical: 4, 
+    fontSize: 15, 
     
   },
   text2:{
     fontSize: 18,
     marginBottom: 10,
-   
 
   },
 
   title: {
-    fontSize: 16, 
+    fontSize: 17, 
     textAlign: 'left',
     marginVertical: 5, 
     marginHorizontal: 5, 
     borderTopWidth: 1,
-    padding: 10,
+    padding: 15,
     color: 'black',
     borderBottomWidth: 1,
     borderColor:'grey',
