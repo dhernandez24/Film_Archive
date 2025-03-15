@@ -13,20 +13,16 @@ import {
   Animated,
 } from 'react-native';
 
- 
-const Separator = () => <View style={styles.separator} />;
-const Separator2 = () => <View style={styles.separator} />;
-
 import { useNavigation } from '@react-navigation/native';
 
-
+const Separator = () => <View style={styles.separator} />;
+const Separator2 = () => <View style={styles.separator} />;
 const Information = ({ route }) => {
   const currentMovie = route.params.item;
   const posterUrl = `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`;
   const starRatingOptions = [1, 2, 3, 4, 5];
   const [starRating, setStarRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
-
 
   const handlePressIn = () => {
     Animated.spring(animatedButtonScale, {
@@ -120,12 +116,10 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginVertical: 4, 
     fontSize: 15, 
-    
   },
   text2:{
     fontSize: 18,
     marginBottom: 10,
-
   },
 
   title: {
@@ -139,7 +133,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor:'grey',
     backgroundColor: 'white', 
-    
   },
  
   button: {
@@ -152,8 +145,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 7,
     marginTop: 10,
-    
   },
+  
   buttonText: {
     color: 'white',
     fontSize: 16,
@@ -162,7 +155,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
     fontStyle: 'italic',
-
   },
   stars: {
     display: 'flex',

@@ -18,7 +18,6 @@ import {
 import { useNavigation } from '@react-navigation/native'; 
 import FirebaseAuth from './FirebaseAuthController';
 
-
 const Separator = () => <View style={styles.separator} />; 
 const Separator2 = () => <View style={styles.separator2} />; 
 const SignUp = () => {
@@ -41,7 +40,6 @@ const SignUp = () => {
       Alert.alert(error.message); // Show error message
     }
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -100,8 +98,8 @@ const SignUp = () => {
         </TouchableOpacity>
       </View>
 
-
       <Separator />
+
       <TouchableOpacity
         style={styles.button}>
         <Text style={styles.buttonText}>SIGN UP</Text>
@@ -176,7 +174,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-
   },
 });
 

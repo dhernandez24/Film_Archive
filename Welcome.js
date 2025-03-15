@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   StyleSheet,
   Image,
@@ -12,9 +11,8 @@ import {
   TextInput
 
 } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
-
-
 import FirebaseAuth from './FirebaseAuthController';
 const Separator = () => <View style={styles.separator} />;
 
@@ -50,7 +48,6 @@ return (
     <Text style={styles.title}> WELCOME </Text>
     <Text style={styles.subtitle}> A Place To Rate Your Favorites</Text>     
     <Separator />   
-
     <Text style={styles.fixToText2}> Email: </Text>
     <TextInput
       style={styles.login}
@@ -58,7 +55,6 @@ return (
       placeholder="Enter your email"
      onChangeText={setEmail}
      />
-
     <Text style={styles.fixToText2}> Password: </Text>
     <View style={styles.passwordContainer}>
     <TextInput
@@ -116,7 +112,6 @@ const styles = StyleSheet.create({
   fixToText2: {
     width: '100%',
     fontSize: 16
-  
   },
   button: {
     bottom: 20,

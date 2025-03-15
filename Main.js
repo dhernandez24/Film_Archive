@@ -10,18 +10,14 @@ import {
   Alert,
   Platform,
   TextInput,
-  ScrollView,
   TouchableOpacity,
   
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-
 const TMDB_BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN;
 const Separator2 = () => <View style={styles.separator2} />;
 const SeparatorColor = () => <View style={styles.separatorColor} />;
-
-
 const searchForMovie = async (searchText) => {
   // Here is where you will need to do an API call using an AJAX fetch
   // example from the TMDb API docs (Search / Movie):
@@ -37,9 +33,6 @@ const searchForMovie = async (searchText) => {
   
   let json = await fetch(url, options)
     .then(res => res.json());
-    
-
-  //console.log(json);
 
   return json.results;
   
@@ -47,11 +40,10 @@ const searchForMovie = async (searchText) => {
 
 const Main = () => { 
   const navigation = useNavigation();
-  
   const [text, setText] = useState('');
   const [results, setResults] = useState([]);
-
   const renderItem = ({ item }) => {
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -62,11 +54,10 @@ const Main = () => {
           <Text style={styles.listItemDate}>{item.release_date}</Text>
         </View>
       </TouchableOpacity>
+
     );
   };
 
-
-  
   return (
     <View style={styles.container}>
       {results.length == 0 &&
@@ -90,11 +81,7 @@ const Main = () => {
             });
           }
         }}
-
         />
-        
-          
-        
         <SeparatorColor />
           <FlatList
             data={results}
@@ -103,7 +90,7 @@ const Main = () => {
           />
           <Separator2 />
           <Text style={styles.subtitle}> Rated Movies: </Text> 
-        
+          
     </View>
   );
 }
@@ -159,16 +146,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontStyle: 'italic',
   },
-
   listItemDate: {
-
     fontSize: 15,
- 
   },
-
   separator2: {
     marginVertical: 60,
-    
   },
   separatorColor: {
     width: '100%',
@@ -176,11 +158,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'black',
     borderBottomWidth: 1,
     alignSelf: 'center',
-    
-
-
   },
- 
 });
 
 export default Main;

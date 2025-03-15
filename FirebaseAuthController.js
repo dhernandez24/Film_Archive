@@ -11,7 +11,6 @@ const firebaseConfig = {
 
 };
 
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); 
@@ -45,7 +44,6 @@ class FirebaseAuth {
       throw new Error(error.message || 'An error occurred while logging in');
     }
   }
-
 
   async logoutUser() {
     try {
