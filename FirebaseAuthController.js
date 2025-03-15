@@ -1,8 +1,5 @@
-
 import { initializeApp} from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
-
-
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
@@ -13,8 +10,6 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID,
 
 };
-
-
 
 
 // Initialize Firebase

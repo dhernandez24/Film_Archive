@@ -16,8 +16,8 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { TMDB_BEARER_TOKEN } from '@env';
 
+const TMDB_BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN;
 const Separator2 = () => <View style={styles.separator2} />;
 const SeparatorColor = () => <View style={styles.separatorColor} />;
 

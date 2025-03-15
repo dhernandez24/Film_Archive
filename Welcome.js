@@ -15,20 +15,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 
-import FirebaseAuth from './firebase-auth-controller';
-
-/*
-console.log(FirebaseAuth);
-console.log('variables?', process.env.FIREBASE_API_KEY);
-console.log('variables?', process.env.FIREBASE_AUTH_DOMAIN);
-console.log('variables?', process.env.FIREBASE_PROJECT_ID);
-console.log('variables?', process.env.FIREBASE_STORAGE_BUCKET);
-console.log('variables?', process.env.FIREBASE_MESSAGING_SENDER_ID);
-console.log('variables?', process.env.FIREBASE_APP_ID);
-
-
-console.log('variables?', process.env.TMDB_BEARER_TOKEN);
-*/
+import FirebaseAuth from './FirebaseAuthController';
 const Separator = () => <View style={styles.separator} />;
 
 const Welcome = () => {  

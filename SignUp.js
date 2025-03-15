@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native'; 
-import FirebaseAuth from './firebase-auth-controller';
+import FirebaseAuth from './FirebaseAuthController';
 
 
 const Separator = () => <View style={styles.separator} />; 

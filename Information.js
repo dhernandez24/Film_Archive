@@ -15,14 +15,12 @@ import {
 
  
 const Separator = () => <View style={styles.separator} />;
-const Separator2 = () c=> <View style={styles.separator} />;
+const Separator2 = () => <View style={styles.separator} />;
 
 import { useNavigation } from '@react-navigation/native';
 
 
 const Information = ({ route }) => {
-  //console.log("On info page: ");
-  //console.log(route.params.item);
   const currentMovie = route.params.item;
   const posterUrl = `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`;
   const starRatingOptions = [1, 2, 3, 4, 5];
