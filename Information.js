@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { db,setDoc, doc } from "firebase/firestore";
 
 const Separator = () => <View style={styles.separator} />;
 const Separator2 = () => <View style={styles.separator} />;
@@ -23,15 +24,29 @@ const Information = ({ route }) => {
   const starRatingOptions = [1, 2, 3, 4, 5];
   const [starRating, setStarRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
+  
+  const handlePressIn = async(selectedRating) => {
 
-  const handlePressIn = () => {
-    Animated.spring(animatedButtonScale, {
+      /// update to connect this to firebase and save the rating "Dalila rated this 5 stars"
+      const rating = doc(db, "users");
+      try {
+        await setDoc(rating, {
+        rating: `${user.displayName} rated this ${rating} stars`,
+        stars: selectedRating,
+      
+      });
+      console.log("rated" + rating);
+    } catch (error) {
+      console.error(error.message);
+    }
+    };
+      Animated.spring(animatedButtonScale, {
       toValue: 1.5,
       useNativeDriver: true,
       speed: 50,
       bounciness: 4,
     }).start();
-  };
+
 
   const handlePressOut = () => {
     Animated.spring(animatedButtonScale, {
