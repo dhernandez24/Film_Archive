@@ -26,9 +26,8 @@ const Information = ({ route }) => {
   const animatedButtonScale = new Animated.Value(1);
   
   const handlePressIn = async(selectedRating) => {
-
       /// update to connect this to firebase and save the rating "Dalila rated this 5 stars"
-      const rating = doc(db, "users");
+      const rating = doc(db, "users"); //
       try {
         await setDoc(rating, {
         rating: `${user.displayName} rated this ${rating} stars`,
