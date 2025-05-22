@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { db,setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
+import { auth,db } from './FirebaseAuthController';
 
 const Separator = () => <View style={styles.separator} />;
 const Separator2 = () => <View style={styles.separator} />;
@@ -24,17 +25,20 @@ const Information = ({ route }) => {
   const starRatingOptions = [1, 2, 3, 4, 5];
   const [starRating, setStarRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
-  
+
+
   const handlePressIn = async(selectedRating) => {
+    const user = auth.currentUser;
       /// update to connect this to firebase and save the rating "Dalila rated this 5 stars"
-      const rating = doc(db, "users"); //
+      const rating = doc(db, "users", user.uid, "ratings", currentMovie.id.toString());
       try {
         await setDoc(rating, {
-        rating: `${user.displayName} rated this ${rating} stars`,
+        rating: `${user.email} rated this ${selectedRating} stars`,
         stars: selectedRating,
       
       });
       console.log("rated" + rating);
+
     } catch (error) {
       console.error(error.message);
     }
