@@ -16,6 +16,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { setDoc, doc } from "firebase/firestore";
 import { auth,db } from './FirebaseAuthController';
+import { Timestamp } from "firebase/firestore";
 
 const Separator = () => <View style={styles.separator} />;
 const Separator2 = () => <View style={styles.separator} />;
@@ -33,11 +34,13 @@ const Information = ({ route }) => {
       const rating = doc(db, "users", user.uid, "ratings", currentMovie.id.toString());
       try {
         await setDoc(rating, {
-        rating: `${user.email} rated this ${selectedRating} stars`,
+        userEmail: user.email,
         stars: selectedRating,
+        time: Timestamp.now(),
+        title: currentMovie.original_title,
       
       });
-      console.log("rated" + rating);
+      //console.log("rated" + rating);
 
     } catch (error) {
       console.error(error.message);
