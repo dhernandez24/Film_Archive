@@ -26,7 +26,7 @@ const Welcome = () => {
     try {
      
       await FirebaseAuth.loginUser(email, password);
-      navigation.navigate('Main');
+      navigation.navigate('HomeScreen');
        
     } catch (error) {
       console.log(error);
