@@ -100,14 +100,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 40,
   },
   title: {
-    fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 40,
+    fontFamily: 'Istok Web',
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowOffset: { width: 0, height: 4 },
   },
   subtitle: {
     textAlign: 'center',
+    fontFamily: 'Istok Web',
     fontSize: 17,
-     marginVertical: 5,
+    marginVertical: 5,
+    
   },
   fixToText2: {
     width: '100%',

@@ -9,6 +9,7 @@ import Main from './Main';
 import Information from './Information';
 import SignUp from './SignUp';
 import HomeScreen from './HomeScreen';
+import RatedMoviesScreen from './RatedMoviesScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,7 +27,8 @@ export default function App() {
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Information" component={Information} />
         <Stack.Screen name="SignUp" component={SignUp} />
-
+        <Stack.Screen name="RatedMoviesScreen" component={RatedMoviesScreen} />
+        
     
       </Stack.Navigator>
     </NavigationContainer>
