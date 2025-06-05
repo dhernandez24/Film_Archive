@@ -54,7 +54,6 @@ const HomeScreen = () => {
   }}
 />
     </View>
-
     <TouchableOpacity>
       <Image source={require('./assets/profile.png')} style={styles.icon} />
     </TouchableOpacity>
@@ -128,7 +127,6 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
   safeArea: {
-
   backgroundColor: '#fff',
   },
   scrollContainer: {

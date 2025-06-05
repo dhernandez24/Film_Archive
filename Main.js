@@ -52,66 +52,127 @@ const Main = () => {
       searchForMovie(incomingQuery).then(setResults);
     }
   }, [incomingQuery]);
+  const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
   const renderItem = ({ item }) => {
-
     return (
       <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Information', {"item": item});
-        }}>
-        <View style={styles.listItem}>
-          <Text style={styles.listItemTitle}>{item.original_title}</Text>
-          <Text style={styles.listItemDate}>{item.release_date}</Text>
+        onPress={() => navigation.navigate('Information', { item })}
+        style={styles.resultRow}
+      >
+      
+        <Image
+  source={{
+    uri: item.backdrop_path
+      ? `https://image.tmdb.org/t/p/w780${item.backdrop_path}`
+      : 'https://via.placeholder.com/500x281?text=No+Image',
+  }}
+  style={styles.backdropImage}
+/>
+        <View style={styles.textWrapper}>
+          <Text style={styles.listItemTitle}>
+            {item.original_title || item.title || 'Untitled'}
+          </Text>
+          <Text style={styles.listItemDate}>{item.release_date || 'Unknown'}</Text>
         </View>
+  
+        <Text style={styles.threeDots}>•••</Text>
       </TouchableOpacity>
-
     );
   };
+  
+
 
   return (
-    <View style={styles.container}>
-      {results.length == 0 &&
-        <Text style={styles.title}>Search</Text>
-        }    
-        <TextInput name='searchText'
-          style={styles.searchBar}
-          onChangeText={newText => setText(newText)}
-          defaultValue={text}
-          placeholder="Type a movie name..."
-          returnKeyType="search"
-          onSubmitEditing={() => {
-            searchForMovie(text).then((results) => {
-              setResults(results);
-            });
-        }}
-        onKeyPress={(e) => {
-          if (e.nativeEvent.key === 'Enter') {
-            searchForMovie(text).then((results) => {
-              setResults(results);
-            });
-          }
-        }}
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {results.length === 0 && <Text style={styles.title}>Search</Text>}
+  
+        <View style={styles.blackHeader}>
+          <Image source={require('./assets/icon_logo.png')} style={styles.logo} /> 
+          <View style={styles.searchSection}>
+            <Image source={require('./assets/search.png')} style={styles.searchIcon} />
+            <TextInput
+              placeholder="Search"
+              style={styles.whiteSearchBar}
+              value={text}
+              onChangeText={setText}
+              returnKeyType="search"
+              onSubmitEditing={() => {
+                searchForMovie(text).then(setResults);
+              }}
+            />
+
+          </View>
+          <TouchableOpacity>
+              <Image source={require('./assets/profile.png')} style={styles.icon} />
+              </TouchableOpacity>
+        </View>
+        <Text style={styles.welcome}>Results for "{text}":</Text>
+      
+        <FlatList
+          data={results}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={{ paddingBottom: 100 }}
         />
-        <SeparatorColor />
-          <FlatList
-            data={results}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderItem}
-          />
-          <Separator2 />
-          <Text style={styles.subtitle}> Rated Movies: </Text> 
-          
-    </View>
+       
+      </View>
+    </SafeAreaView>
   );
-}
+}  
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
+    },
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+    },    
+  scrollContainer: {
+    paddingBottom: 32,
+  },
+  blackHeader: {
+    width: '100%',
+    height: 100,
+    backgroundColor: '#252525',
+    paddingHorizontal: 15,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 25,
+    justifyContent: 'space-between',
+
+  },
+  logo: {
+    width: 57,
+    height: 57,
+    resizeMode: 'contain',
+  },
+  searchSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    height: 40,
+    width: 262,
+  },
+  searchIcon: {
+    width: 18,
+    height: 18,
+    marginRight: 8,
+    backgroundColor: '#fff6f6',
+  },
+  whiteSearchBar: {
+    flex: 1,
+    height: '100%',
+    backgroundColor: '#fff6f6',
+  },
+  icon: {
+    width: 32,
+    height: 31,
+    resizeMode: 'contain',
   },
 
   title: {
@@ -140,36 +201,74 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     
   },
-
+  welcome: {
+    width: 317,
+    height: 37,
+    flexShrink: 0,
+    color: '#000',
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowOffset: { width: 0, height: 4 },
+    textShadowRadius: 4,
+    fontFamily: 'Istok Web',
+    fontSize: 15,
+    fontStyle: 'normal',
+    fontWeight: '400',
+    lineHeight: 58, 
+    marginLeft: 30,
+    marginTop: 5,
+    marginBottom: 15,
+  },
   listItem: {
     borderTopWidth: 1,
     padding: 10,
     backgroundColor: 'white',
-    borderBottomWidth: 1,
     borderColor: '#aaa',
 
   },
-
   listItemTitle: {
-    fontFamily: "bio rhyme", 
-    fontWidth: 'bold',
-    fontSize: 18,
+    fontFamily: "Istok Web", 
+    fontSize: 17,
     color: 'black',
-    fontStyle: 'italic',
+    marginBottom:5,
+
   },
   listItemDate: {
-    fontSize: 15,
+    fontSize: 12,
   },
-  separator2: {
-    marginVertical: 60,
-  },
-  separatorColor: {
-    width: '100%',
-    marginVertical: 5,
-    borderBottomColor: 'black',
+ 
+  resultRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
     borderBottomWidth: 1,
-    alignSelf: 'center',
+    borderColor: '#ccc',
+    backgroundColor: 'white',
+    
   },
+
+  backdropImage: {
+    marginLeft: 20,
+    marginRight: 20,
+    width: 118,
+    height: 66, 
+    flexShrink: 0,
+    borderRadius: 8,
+    backgroundColor: '#eee',
+  },
+  
+  textWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  
+  threeDots: {
+    fontSize: 24,
+    color: '#888',
+    marginRight: 20,
+  },
+  
 });
 
 export default Main;
