@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import {
   StyleSheet,
   Button,
@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+
 const TMDB_BEARER_TOKEN = process.env.TMDB_BEARER_TOKEN;
 const Separator2 = () => <View style={styles.separator2} />;
 const SeparatorColor = () => <View style={styles.separatorColor} />;
@@ -42,6 +44,15 @@ const Main = () => {
   const navigation = useNavigation();
   const [text, setText] = useState('');
   const [results, setResults] = useState([]);
+  const route = useRoute();
+  const incomingQuery = route.params?.query;
+  useEffect(() => {
+    if (incomingQuery) {
+      setText(incomingQuery);
+      searchForMovie(incomingQuery).then(setResults);
+    }
+  }, [incomingQuery]);
+
   const renderItem = ({ item }) => {
 
     return (
