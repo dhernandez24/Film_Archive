@@ -1,5 +1,11 @@
-import { initializeApp} from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signOut
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 
@@ -37,7 +43,7 @@ class FirebaseAuth {
 
   
   async loginUser(email, password) {
-    if (!email || !password) {i
+    if (!email || !password) {
       throw new Error('Email and password are required');
     }
 
