@@ -15,7 +15,7 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import { setDoc, doc } from "firebase/firestore";
-import { auth,db } from './FirebaseAuthController';
+import { auth,db } from './FirebaseController';
 import { Timestamp } from "firebase/firestore";
 
 const Separator = () => <View style={styles.separator} />;
