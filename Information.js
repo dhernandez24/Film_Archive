@@ -23,14 +23,44 @@ const Separator2 = () => <View style={styles.separator} />;
 const Information = ({ route }) => {
   const currentMovie = route.params.item;
   const posterUrl = `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`;
-  const starRatingOptions = [1, 2, 3, 4, 5];
+  const starRatingOptions = [1, 2, 3, 4, 5,6,7,8,9,10];
   const [starRating, setStarRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
+  const genreMap = {
+    16: 'Animation',
+    10751: 'Family',
+    14: 'Fantasy',
+    28: 'Action',
+    12: 'Adventure',
+    35: 'Comedy',
+    80: 'Crime',
+    99: 'Documentary',
+    18: 'Drama',
+    27: 'Horror',
+    10402: 'Music',
+    9648: 'Mystery',
+    10749: 'Romance',
+    878: 'Science Fiction',
+    10770: 'TV Movie',
+    53: 'Thriller',
+    10752: 'War',
+    37: 'Western',
+  };
+  const genres =
+  currentMovie.genre_ids && currentMovie.genre_ids.length > 0
+    ? currentMovie.genre_ids
+        .map(id => genreMap[id])
+        .filter(Boolean)  
+        .join(', ')
+    : 'Unknown';
+
+const year = currentMovie.release_date
+  ? currentMovie.release_date.substring(0, 4)
+  : 'N/A';
 
 
   const handlePressIn = async(selectedRating) => {
     const user = auth.currentUser;
-      /// update to connect this to firebase and save the rating "Dalila rated this 5 stars"
       const rating = doc(db, "users", user.uid, "ratings", currentMovie.id.toString());
       try {
         await setDoc(rating, {
@@ -69,22 +99,46 @@ const Information = ({ route }) => {
 
 const navigation = useNavigation();
 
+//console.log("MOVIE DATA:", currentMovie);
+
   return (
     <View style={styles.container}>
-      
-      <ScrollView>
-       {currentMovie.poster_path && (
-          <Image style={styles.poster} source={{ uri: posterUrl }} />
-        )}
-         <Text style={styles.text}>{'Title:'}</Text>
-          <Text style={styles.title}>{ currentMovie.original_title }</Text>
-          <Text style={styles.text}>{'Release Date:'}</Text>
-          <Text style={styles.title}>{ currentMovie.release_date }</Text>
-         <Text style={styles.text}>{'Sypnosis:'}</Text>
-          <Text style={styles.title}>{ currentMovie.overview }</Text>
-      </ScrollView> 
-      <Separator2 />
-        <Text style={styles.heading}>{starRating ? ` Rating:`: 'Tap to rate'}</Text>
+        <TouchableOpacity
+      style={styles.goBackButton}
+      onPress={() => navigation.goBack()}
+      activeOpacity={0.7}
+    >
+      <Image
+        source={require('./assets/button.png')} 
+        style={styles.goBackImage}
+      />
+    </TouchableOpacity>
+
+  
+  <View style={styles.posterContainer}>
+    {currentMovie.poster_path && (
+      <Image style={styles.poster} source={{ uri: posterUrl }} />
+    )}
+  </View>
+
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.overlay}>
+      <View style={styles.blackTitleCard}>
+        <Text style={styles.title}>{currentMovie.original_title}</Text>
+        <Text style={styles.information}>{`${genres} • ${year}`}</Text>
+
+        <View style={styles.blackDescriptionCard}>
+        <Text style={styles.description}>{currentMovie.overview}</Text>
+      </View>
+      </View>
+          </View>
+      </ScrollView>
+  
+      <Text style={styles.heading}>
+      {starRating
+      ? `Rated "${currentMovie.original_title}" with ${starRating} star${starRating > 1 ? 's' : ''}.`
+      : 'Tap to rate'}
+      </Text>
 
           <View style={styles.stars}>
             {starRatingOptions.map((option) => (
@@ -96,20 +150,16 @@ const navigation = useNavigation();
                 <Animated.View style={animatedScaleStyle}>
                   <MaterialIcons
                     name={starRating >= option ? 'star' : 'star-border'}
-                    size={32}
+                    size={23}
                     style={starRating >= option ? styles.starSelected : styles.starUnselected}
                   />
                 </Animated.View>
               </TouchableWithoutFeedback>
             ))}
           </View>
-         <Separator2 />
-    <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.buttonText}>Go Back</Text>
-      </TouchableOpacity>
+          <Separator2 />
+
+
    
     </View>
   );
@@ -118,68 +168,104 @@ const navigation = useNavigation();
 const styles = StyleSheet.create({
    container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 25,
+    position: 'relative',
+    backgroundColor: 'rgb(24, 24, 24)',
+  },
+  goBackButton: {
+    position: 'absolute',
+    top: 35,        
+    left: 25,       
+    width: 50,
+    height:52,
+    zIndex: 10,     
+    flexShrink: 0,
+  },
+  goBackImage: {
+    width: '100%',
+    height: '100%',
+    transform: [{ rotate: '179.656deg' }],
+  },
+  posterContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 590,
+  
   },
   poster: {
     width: '100%',
-    height: 350,
-    resizeMode: 'contain',
-    marginVertical: 10,
+    height: '100%',
+  },
+  scrollContent: {
+    paddingTop: 450, 
 
-    
   },
-  text: {
-    flexDirection: 'row',
-    textAlign: 'left',
-    justifyContent: 'space-between',
-    fontSize: 17,
-    marginVertical: 4, 
-    fontSize: 15, 
-  },
-  text2:{
-    fontSize: 18,
-    marginBottom: 10,
-  },
-
   title: {
-    fontSize: 17, 
-    textAlign: 'left',
-    marginVertical: 5, 
-    marginHorizontal: 5, 
-    borderTopWidth: 1,
-    padding: 15,
-    color: 'black',
-    borderBottomWidth: 1,
-    borderColor:'grey',
-    backgroundColor: 'white', 
-  },
- 
-  button: {
-    bottom: 20,
-    width: '70%',
-    borderWidth: 2,
-    borderRadius: 15,
-    borderColor: 'black',
-    backgroundColor: 'black',
-    alignItems: 'center',
-    padding: 7,
-    marginTop: 10,
-  },
-  
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  heading: {
-    fontSize: 18,
+    fontSize: 20,
+    color: '#fff', 
+    width: '100%',
+    fontFamily: 'Istok Web',
+    fontWeight: '400',
+    marginLeft: 25,
+    marginTop: 25,
     marginBottom: 10,
-    fontStyle: 'italic',
+    textShadowColor: 'rgba(0, 0, 0, 0.25)',
+    textShadowOffset: { width: 0, height: 4 },
+  },
+  information: {
+    fontSize: 17, 
+    color: '#fff', 
+    width: '100%',
+    fontFamily: 'Istok Web',
+    fontWeight: '400',
+    marginLeft: 25,
+    marginTop: 5,
+    marginBottom: 20,
+
+  },
+  blackTitleCard: {
+    width: '100%',
+    borderTopRightRadius: 18,
+    borderTopLeftRadius: 18,
+    backgroundColor: 'rgba(37, 37, 37, 0.69)',
+    borderBottomColor: "white",
+    borderBottomWidth: 1,
+  },
+  description: {
+    fontSize: 17, 
+    width: '374',
+    fontFamily: 'Istok Web',
+    color: '#fff', 
+    fontWeight: '400',
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 30,
+    marginBottom: 40,
+  },
+  blackDescriptionCard: {
+    width: '100%',
+
+    backgroundColor: 'rgb(24, 24, 24)',
+    borderTopRightRadius: 18,
+    borderTopLeftRadius: 18,
+  },
+
+  heading: {
+    fontSize: 20,
+    marginBottom: 15,
+    marginTop: 20,
+    fontFamily: 'Istok Web',
+    textAlign: 'center',       
+    alignSelf: 'center',       
+    width: '100%', 
+    color: '#fff',           
+     
   },
   stars: {
-    display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',  // Center the stars horizontally inside the container
+    marginBottom: 15, 
   },
   starUnselected: {
     color: '#aaa',
@@ -188,8 +274,11 @@ const styles = StyleSheet.create({
     color: '#ffb300',
   },
   separator: {
-    marginVertical: 15,
-    borderBottomColor: '#737373',
+    width: 370,
+    height: 20,
+    strokreWidth: .5,
+    stroke: 'black',
+   
   },
  
 });
