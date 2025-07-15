@@ -49,7 +49,11 @@ const Main = () => {
   useEffect(() => {
     if (incomingQuery) {
       setText(incomingQuery);
-      searchForMovie(incomingQuery).then(setResults);
+      searchForMovie(text).then(results => {
+        const sortedResults = results.sort((a, b) => b.popularity - a.popularity);
+        setResults(sortedResults);
+      });
+      
     }
   }, [incomingQuery]);
   const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
@@ -61,10 +65,12 @@ const Main = () => {
         style={styles.resultRow}
       >
       
-        <Image
+      <Image
   source={{
     uri: item.backdrop_path
       ? `https://image.tmdb.org/t/p/w780${item.backdrop_path}`
+      : item.poster_path
+      ? `https://image.tmdb.org/t/p/w185${item.poster_path}`
       : 'https://via.placeholder.com/500x281?text=No+Image',
   }}
   style={styles.backdropImage}
