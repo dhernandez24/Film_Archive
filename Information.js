@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import {
@@ -14,18 +14,18 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { setDoc, doc } from "firebase/firestore";
-import { auth,db } from './FirebaseController';
-import { Timestamp } from "firebase/firestore";
+
+import RatingsFromFBD from './RatingsFromFBD';
+
 
 const Separator = () => <View style={styles.separator} />;
 const Separator2 = () => <View style={styles.separator} />;
 const Information = ({ route }) => {
   const currentMovie = route.params.item;
   const posterUrl = `https://image.tmdb.org/t/p/w500${currentMovie.poster_path}`;
-  const starRatingOptions = [1, 2, 3, 4, 5,6,7,8,9,10];
+
   const [starRating, setStarRating] = useState(null);
-  const animatedButtonScale = new Animated.Value(1);
+
   const genreMap = {
     16: 'Animation',
     10751: 'Family',
@@ -58,46 +58,8 @@ const year = currentMovie.release_date
   ? currentMovie.release_date.substring(0, 4)
   : 'N/A';
 
-
-  const handlePressIn = async(selectedRating) => {
-    const user = auth.currentUser;
-      const rating = doc(db, "users", user.uid, "ratings", currentMovie.id.toString());
-      try {
-        await setDoc(rating, {
-        userEmail: user.email,
-        stars: selectedRating,
-        time: Timestamp.now(),
-        title: currentMovie.original_title,
-      
-      });
-      //console.log("rated" + rating);
-
-    } catch (error) {
-      console.error(error.message);
-    }
-    };
-      Animated.spring(animatedButtonScale, {
-      toValue: 1.5,
-      useNativeDriver: true,
-      speed: 50,
-      bounciness: 4,
-    }).start();
-
-
-  const handlePressOut = () => {
-    Animated.spring(animatedButtonScale, {
-      toValue: 1,
-      useNativeDriver: true,
-      speed: 50,
-      bounciness: 4,
-    }).start();
-  };
-
-  const animatedScaleStyle = {
-    transform: [{ scale: animatedButtonScale }],
-  };
-
 const navigation = useNavigation();
+const lastTapRef = useRef(null);
 
 //console.log("MOVIE DATA:", currentMovie);
 
@@ -136,28 +98,16 @@ const navigation = useNavigation();
   
       <Text style={styles.heading}>
       {starRating
-      ? `Rated "${currentMovie.original_title}" with ${starRating} star${starRating > 1 ? 's' : ''}.`
+      ? `Rated "${currentMovie.original_title}" with ${starRating} Star${starRating > 1 ? 's' : ''}`
       : 'Tap to rate'}
       </Text>
 
-          <View style={styles.stars}>
-            {starRatingOptions.map((option) => (
-              <TouchableWithoutFeedback
-                onPressIn={() => handlePressIn(option)}
-                onPressOut={() => handlePressOut(option)}
-                onPress={() => setStarRating(option)}
-                key={option}>
-                <Animated.View style={animatedScaleStyle}>
-                  <MaterialIcons
-                    name={starRating >= option ? 'star' : 'star-border'}
-                    size={23}
-                    style={starRating >= option ? styles.starSelected : styles.starUnselected}
-                  />
-                </Animated.View>
-              </TouchableWithoutFeedback>
-            ))}
-          </View>
-          <Separator2 />
+
+      <RatingsFromFBD
+        movieId={currentMovie.id}
+        movieTitle={currentMovie.original_title}
+        onRatingChange={setStarRating}
+      />
 
 
    
@@ -259,12 +209,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',       
     alignSelf: 'center',       
     width: '100%', 
-    color: '#fff',           
+    color: '#fff', 
+             
      
   },
   stars: {
     flexDirection: 'row',
-    justifyContent: 'center',  // Center the stars horizontally inside the container
+    justifyContent: 'center',  
     marginBottom: 15, 
   },
   starUnselected: {
