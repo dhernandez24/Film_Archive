@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   StyleSheet,
   Image,
@@ -10,17 +10,10 @@ import {
   Text
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//add backend stuff later, for rated movied
-const dummyData = [
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-  { title: 'Movie_title' },
-];
+import { auth, db } from './FirebaseController';
+import { collection, getDocs } from 'firebase/firestore';
 
+const user = auth.currentUser;
 /// dummy data for recommended: 
 //ask about ai recommendionation 
 const dummyData2 = [
@@ -36,6 +29,23 @@ const dummyData2 = [
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
+  const [ratedMovies, setRatedMovies] = useState([]);
+useEffect(() => {
+  const fetchRatedMovies = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const ratingsRef = collection(db, 'users', user.uid, 'ratings');
+    const snapshot = await getDocs(ratingsRef);
+    const movies = [];
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.stars !== null) { 
+        movies.push(data);}
+    });
+    setRatedMovies(movies);};
+
+  fetchRatedMovies();
+}, []);
   return (
     <SafeAreaView style={styles.safeArea}>
     <View style={styles.blackHeader}>
@@ -60,7 +70,7 @@ const HomeScreen = () => {
     </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.welcome}>Welcome Back, Dalila!</Text>
+          <Text style={styles.welcome}>Welcome, {user.email}</Text>
           <View style={styles.line} />
           <Text style={styles.subtitle}>Featured today</Text>
         </View>
@@ -85,15 +95,17 @@ const HomeScreen = () => {
 
       <View style={styles.ratingsSection}>
       <ScrollView
-        horizontal howsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {dummyData.map((item, index) => (
-          <View key={index} style={styles.ratingCard}>
-            <View style={styles.posterBox} />
-            <Text style={styles.movieTitle}>{item.title}</Text>
-          </View>
-        ))}
+        horizontal showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}>
+        {ratedMovies.slice(0,7).map((movie, index) => (
+        <View key={movie.movieId || index} style={styles.ratingCard}>
+      <Image source={{ uri: `https://image.tmdb.org/t/p/w200${movie.poster_path}` }} 
+      style={styles.posterBox} />
+    <Text style={styles.movieTitle}>{movie.title}</Text>
+
+  </View>
+))}
+
       </ScrollView>
       </View>
       <View style={styles.invisibleLine} />
@@ -183,7 +195,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     fontFamily: 'Istok Web',
-    fontSize: 30,
+    fontSize: 25,
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 58, 
@@ -229,7 +241,7 @@ const styles = StyleSheet.create({
   },
   featuredCard: {
     width: 351,
-    height: 155,
+    height: 160,
     backgroundColor: '#252525',
     borderRadius: 21,
     marginRight: 10,
@@ -238,8 +250,8 @@ const styles = StyleSheet.create({
 
   ratingsSection: {
     backgroundColor: '#252525',
-    height: 211,
-    paddingVertical: 16,
+    height: 290,
+    paddingVertical: 15,
     justifyContent: 'center',
     marginLeft: 15,
     borderTopLeftRadius: 18,
@@ -251,22 +263,26 @@ const styles = StyleSheet.create({
   },
   ratingCard: {
     alignItems: 'center',
-
-    marginLeft: 10,
+    marginLeft: 5,
   },
   posterBox: {
-    width: 107,
-    height: 137,
+    borderColor: '#E0E0E0',
+    borderWidth: 1,
+    width: 130,
+    height: 200,
     backgroundColor: '#E0E0E0', 
     marginBottom: 8,
-    marginLeft: 8,
+    marginLeft:20,
   },
   movieTitle: {
     color: '#FFF',
     fontFamily: 'Istok Web',
     fontSize: 14,
     fontWeight: '400',
-    fontStyle: 'normal',
+    fontStyle: 'normal', 
+    textAlign: 'center',   
+    flexWrap: 'wrap',      
+    width: 100,      
   },
   ratingsHeader: {
     flexDirection: 'row',
