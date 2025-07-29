@@ -47,15 +47,14 @@ const Main = () => {
   const route = useRoute();
   const incomingQuery = route.params?.query;
   useEffect(() => {
-    if (incomingQuery) {
-      setText(incomingQuery);
-      searchForMovie(text).then(results => {
+    const queryToSearch = incomingQuery || text;
+    if (queryToSearch) {
+      searchForMovie(queryToSearch).then(results => {
         const sortedResults = results.sort((a, b) => b.popularity - a.popularity);
         setResults(sortedResults);
       });
-      
     }
-  }, [incomingQuery]);
+  }, [incomingQuery, text]);
   const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 
   const renderItem = ({ item }) => {
@@ -92,9 +91,20 @@ const Main = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {results.length === 0 && <Text style={styles.title}>Search</Text>}
+
   
         <View style={styles.blackHeader}>
+          <TouchableOpacity
+                    style={styles.goBackButton}
+                    onPress={() => navigation.goBack()}
+                    activeOpacity={0.7}
+                  >
+                    <Image
+                      source={require('./assets/button.png')} 
+                      style={styles.goBackImage}
+                    />
+                    
+                  </TouchableOpacity>
           <Image source={require('./assets/icon_logo.png')} style={styles.logo} /> 
           <View style={styles.searchSection}>
             <Image source={require('./assets/search.png')} style={styles.searchIcon} />
@@ -131,24 +141,38 @@ const Main = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+
     },
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+
     },    
   scrollContainer: {
     paddingBottom: 32,
   },
   blackHeader: {
     width: '100%',
-    height: 100,
+    height: 80,
     backgroundColor: '#252525',
     paddingHorizontal: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
 
+  },
+  goBackButton: {
+    position: 'absolute',
+    top: 90,        
+    left: 25,       
+    width: 50,
+    height:52,
+    zIndex: 10,     
+    flexShrink: 0,
+  },
+  goBackImage: {
+    width: '100%',
+    height: '100%',
+    transform: [{ rotate: '179.656deg' }],
   },
   logo: {
     width: 57,
@@ -168,12 +192,12 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: 8,
-    backgroundColor: '#fff6f6',
+    backgroundColor: 'white',
   },
   whiteSearchBar: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#fff6f6',
+    backgroundColor: 'white',
   },
   icon: {
     width: 32,
@@ -199,7 +223,6 @@ const styles = StyleSheet.create({
   searchBar: {
     height: 40,
     width: '100%',
-    borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -208,20 +231,18 @@ const styles = StyleSheet.create({
     
   },
   welcome: {
-    width: 317,
-    height: 37,
     flexShrink: 0,
     color: '#000',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     fontFamily: 'Istok Web',
-    fontSize: 15,
+    fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 58, 
-    marginLeft: 30,
-    marginTop: 5,
+    marginLeft: 85,
+    marginTop: 10,
     marginBottom: 15,
   },
   listItem: {

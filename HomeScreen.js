@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff6f6',
   },
   icon: {
-    width: 32,
-    height: 31,
+    width: 37,
+    height: 37,
     resizeMode: 'contain',
   },
   welcome: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 29,
-    marginVertical: 15,
+    marginVertical: 15, 
     marginLeft: 15,
   },
   redBorder: {

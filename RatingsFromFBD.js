@@ -4,12 +4,18 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { auth, db } from './FirebaseController';
 import { doc, setDoc, getDoc, Timestamp } from 'firebase/firestore';
 
-const RatingsFromFBD = ({ movieId, movieTitle, starSize = 23, onRatingChange }) => {
+const RatingsFromFBD = ({ 
+  movieId, 
+  movieTitle, 
+  starSize = 23, 
+  onRatingChange,
+  moviePoster,      
+  movieBackdrop,     
+  movieReleaseDate,}) => {
   const starOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [rating, setRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
   const lastTap = useRef(null);
-
   useEffect(() => {
     const fetchRating = async () => {
       const user = auth.currentUser;
@@ -22,12 +28,9 @@ const RatingsFromFBD = ({ movieId, movieTitle, starSize = 23, onRatingChange }) 
     fetchRating();
   }, [movieId]);
 
-
-
   const handlePress = async (selectedRating) => {
-
     const now = Date.now();
-  if (lastTap.currenr && (now - lastTap.current) < 300) { 
+  if (lastTap.current && (now - lastTap.current) < 300) { 
     if (rating === selectedRating) {
     
       setRating(null);
@@ -40,13 +43,15 @@ const RatingsFromFBD = ({ movieId, movieTitle, starSize = 23, onRatingChange }) 
         stars: null,
         time: Timestamp.now(),
         title: movieTitle,
+        poster_path: moviePoster,
+        backdrop_path: movieBackdrop,
+        release_date: movieReleaseDate,
+        movieId: movieId
       });
       lastTap.current = null;
       return;
     }
   }
-
-
     setRating(selectedRating);
     if (onRatingChange) onRatingChange(selectedRating);
     const user = auth.currentUser;
@@ -56,6 +61,10 @@ const RatingsFromFBD = ({ movieId, movieTitle, starSize = 23, onRatingChange }) 
       stars: selectedRating,
       time: Timestamp.now(),
       title: movieTitle,
+      poster_path: moviePoster,
+      backdrop_path: movieBackdrop,
+      release_date: movieReleaseDate,
+      movieId: movieId
 
     });
     lastTap.current = now;

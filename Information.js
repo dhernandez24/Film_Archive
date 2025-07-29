@@ -62,7 +62,6 @@ const navigation = useNavigation();
 const lastTapRef = useRef(null);
 
 //console.log("MOVIE DATA:", currentMovie);
-
   return (
     <View style={styles.container}>
         <TouchableOpacity
@@ -75,20 +74,15 @@ const lastTapRef = useRef(null);
         style={styles.goBackImage}
       />
     </TouchableOpacity>
-
-  
   <View style={styles.posterContainer}>
     {currentMovie.poster_path && (
-      <Image style={styles.poster} source={{ uri: posterUrl }} />
-    )}
+      <Image style={styles.poster} source={{ uri: posterUrl }} /> )}
   </View>
-
         <ScrollView contentContainerStyle={styles.scrollContent}>
       <View style={styles.overlay}>
       <View style={styles.blackTitleCard}>
         <Text style={styles.title}>{currentMovie.original_title}</Text>
         <Text style={styles.information}>{`${genres} • ${year}`}</Text>
-
         <View style={styles.blackDescriptionCard}>
         <Text style={styles.description}>{currentMovie.overview}</Text>
       </View>
@@ -101,16 +95,14 @@ const lastTapRef = useRef(null);
       ? `Rated "${currentMovie.original_title}" with ${starRating} Star${starRating > 1 ? 's' : ''}`
       : 'Tap to rate'}
       </Text>
-
-
       <RatingsFromFBD
         movieId={currentMovie.id}
         movieTitle={currentMovie.original_title}
         onRatingChange={setStarRating}
+        moviePoster={currentMovie.poster_path}
+        movieBackdrop={currentMovie.backdrop_path}
+        movieReleaseDate={currentMovie.release_date}
       />
-
-
-   
     </View>
   );
 };
@@ -141,7 +133,6 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     height: 590,
-  
   },
   poster: {
     width: '100%',
@@ -149,7 +140,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingTop: 450, 
-
   },
   title: {
     fontSize: 20,
@@ -195,7 +185,6 @@ const styles = StyleSheet.create({
   },
   blackDescriptionCard: {
     width: '100%',
-
     backgroundColor: 'rgb(24, 24, 24)',
     borderTopRightRadius: 18,
     borderTopLeftRadius: 18,
@@ -210,8 +199,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',       
     width: '100%', 
     color: '#fff', 
-             
-     
   },
   stars: {
     flexDirection: 'row',

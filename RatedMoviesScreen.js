@@ -43,7 +43,7 @@ const RatedMoviesScreen = () => {
 
     fetchRatedMovies();
   }, []);
-
+ 
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 10; i++) {
@@ -59,7 +59,7 @@ const RatedMoviesScreen = () => {
     return <View style={{ flexDirection: 'row', marginTop: 4 }}>{stars}</View>;
   };
 
-
+const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
 const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -67,13 +67,16 @@ const renderItem = ({ item }) => {
         style={styles.resultRow}
       >
       
-      <Image source={{
+      <Image
+  source={{
     uri: item.backdrop_path
-    ? `https://image.tmdb.org/t/p/w780${item.backdrop_path}`
-      :item.poster_path
+      ? `https://image.tmdb.org/t/p/w780${item.backdrop_path}`
+      : item.poster_path
       ? `https://image.tmdb.org/t/p/w185${item.poster_path}`
       : 'https://via.placeholder.com/500x281?text=No+Image',
   }}
+
+
   style={styles.backdropImage}
 />
         <View style={styles.textWrapper}>
@@ -89,21 +92,32 @@ const renderItem = ({ item }) => {
     );
   };
 
+  
   return (
     <SafeAreaView style={styles.safeArea}>
   
   <View style={styles.blackHeader}>
-    <Image source={require('./assets/icon_logo.png')} style={styles.logo} />
+  <Text style={styles.welcome}>Your Ratings</Text>
+  <Image source={require('./assets/profile.png')} style={styles.icon} />
     
-    <TouchableOpacity>
-      <Image source={require('./assets/profile.png')} style={styles.icon} />
-    </TouchableOpacity>
     </View>
+    <TouchableOpacity
+          style={styles.goBackButton}
+          onPress={() => navigation.goBack()}
+          activeOpacity={0.7}
+        >
+          <Image
+            source={require('./assets/button.png')} 
+            style={styles.goBackImage}
+          />
+          
+        </TouchableOpacity>
+   
       <FlatList
                 data={results}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
-                contentContainerStyle={{ paddingBottom: 100 }}
+                contentContainerStyle={{ paddingBottom: 50, paddingTop: 20, }}
               />
 
   
@@ -124,7 +138,7 @@ const styles = StyleSheet.create({
   },
   blackHeader: {
     width: '100%',
-    height: 100,
+    height: 80,
     backgroundColor: '#252525',
     paddingHorizontal: 15,
     flexDirection: 'row',
@@ -133,21 +147,19 @@ const styles = StyleSheet.create({
 
   },
   logo: {
-    width: 57,
-    height: 57,
+    marginLeft: 300,
+    width: 80,
+    height: 80,
     resizeMode: 'contain',
   },
   
   welcome: {
-    width: 388,
-    height: 58,
-    flexShrink: 0,
-    color: '#000',
+    color: 'white',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     fontFamily: 'Istok Web',
-    fontSize: 30,
+    fontSize: 22,
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 58, 
@@ -155,9 +167,10 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 32,
-    height: 31,
+    width: 37,
+    height: 37,
     resizeMode: 'contain',
+    marginRight: 13,
   },
   heading: {
     fontSize: 22,
@@ -166,7 +179,7 @@ const styles = StyleSheet.create({
   },
     goBackButton: {
       position: 'absolute',
-      top: 35,        
+      top: 90,        
       left: 25,       
       width: 50,
       height:52,
@@ -182,10 +195,10 @@ const styles = StyleSheet.create({
       textAlign: 'left',
       fontWeight: 'bold',
       alignSelf: 'flex-start',
-      paddingLeft: 5,
+
       fontSize: 27,
       marginVertical: 15,
-      marginTop: 20,
+      marginTop: 10,
       
     },
     subtitle: {
@@ -193,24 +206,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
        marginVertical: 5,
     },
-    
-    welcome: {
-      width: 317,
-      height: 37,
-      flexShrink: 0,
-      color: '#000',
-      textShadowColor: 'rgba(0, 0, 0, 0.25)',
-      textShadowOffset: { width: 0, height: 4 },
-      textShadowRadius: 4,
-      fontFamily: 'Istok Web',
-      fontSize: 15,
-      fontStyle: 'normal',
-      fontWeight: '400',
-      lineHeight: 58, 
-      marginLeft: 30,
-      marginTop: 5,
-      marginBottom: 15,
-    },
+  
     listItem: {
       borderTopWidth: 1,
       padding: 10,
