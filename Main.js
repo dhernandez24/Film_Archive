@@ -120,9 +120,12 @@ const Main = () => {
             />
 
           </View>
-          <TouchableOpacity>
-              <Image source={require('./assets/profile.png')} style={styles.icon} />
-              </TouchableOpacity>
+          <TouchableOpacity
+        style={styles.icon}
+        onPress={() => navigation.navigate('ProfileSettings')}
+        activeOpacity={0.7} >
+        <Image source={require('./assets/profile.png')} style={styles.icon} />
+      </TouchableOpacity>
         </View>
         <Text style={styles.welcome}>Results for "{text}":</Text>
       
@@ -130,7 +133,7 @@ const Main = () => {
           data={results}
           keyExtractor={(item) => item.id.toString()}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingBottom: 100 }}
+          contentContainerStyle={{ paddingBottom: 50 }}
         />
        
       </View>
@@ -141,7 +144,7 @@ const Main = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-
+    backgroundColor: '#fff',
     },
     container: {
       flex: 1,

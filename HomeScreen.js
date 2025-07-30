@@ -64,9 +64,13 @@ useEffect(() => {
   }}
 />
     </View>
-    <TouchableOpacity>
+    <TouchableOpacity
+      style={styles.goBackButton}
+      onPress={() => navigation.navigate('ProfileSettings')}
+      activeOpacity={0.7} >
       <Image source={require('./assets/profile.png')} style={styles.icon} />
     </TouchableOpacity>
+
     </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentWrapper}>

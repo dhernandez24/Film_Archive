@@ -18,9 +18,12 @@ import {
 import { useNavigation } from '@react-navigation/native'; 
 import FirebaseAuth from './FirebaseController';
 
+import { useRoute } from '@react-navigation/native';
+
 const Separator = () => <View style={styles.separator} />; 
 const Separator2 = () => <View style={styles.separator2} />; 
 const SignUp = () => {
+  const navigation = useNavigation();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
@@ -45,6 +48,17 @@ const SignUp = () => {
     <SafeAreaView style={styles.container}>
       
     <Separator /> 
+    <TouchableOpacity
+                        style={styles.goBackButton}
+                        onPress={() => navigation.goBack()}
+                        activeOpacity={0.7}
+                      >
+                        <Image
+                          source={require('./assets/button.png')} 
+                          style={styles.goBackImage}
+                        />
+                        
+                      </TouchableOpacity>
       <Text style={styles.title}> Sign Up </Text>
        <Separator2 />
         <Text style={styles.subtitle}> Please Enter Your Details </Text>   
@@ -114,6 +128,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 40,
+  },
+  goBackButton: {
+    position: 'absolute',
+    top: 40,        
+    left: 5,       
+    width: 50,
+    height:52,
+    zIndex: 10,     
+    flexShrink: 0,
+  },
+  goBackImage: {
+    width: '100%',
+    height: '100%',
+    transform: [{ rotate: '179.656deg' }],
   },
   title: {
     fontWeight: 'bold',

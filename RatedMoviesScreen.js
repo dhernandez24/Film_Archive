@@ -98,7 +98,12 @@ const renderItem = ({ item }) => {
   
   <View style={styles.blackHeader}>
   <Text style={styles.welcome}>Your Ratings</Text>
-  <Image source={require('./assets/profile.png')} style={styles.icon} />
+  <TouchableOpacity
+      style={styles.icom}
+      onPress={() => navigation.navigate('ProfileSettings')}
+      activeOpacity={0.7} >
+      <Image source={require('./assets/profile.png')} style={styles.icon} />
+    </TouchableOpacity>
     
     </View>
     <TouchableOpacity

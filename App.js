@@ -1,5 +1,3 @@
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
-
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,6 +8,7 @@ import Information from './Information';
 import SignUp from './SignUp';
 import HomeScreen from './HomeScreen';
 import RatedMoviesScreen from './RatedMoviesScreen';
+import ProfileSettings from './ProfileSettings';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +27,7 @@ export default function App() {
         <Stack.Screen name="Information" component={Information} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="RatedMoviesScreen" component={RatedMoviesScreen} />
-        
+        <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
     
       </Stack.Navigator>
     </NavigationContainer>
