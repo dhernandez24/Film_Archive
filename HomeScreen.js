@@ -74,7 +74,7 @@ useEffect(() => {
     </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.welcome}>Welcome, {user.email}</Text>
+          <Text style={styles.welcome}>Welcome, </Text>
           <View style={styles.line} />
           <Text style={styles.subtitle}>Featured today</Text>
         </View>
