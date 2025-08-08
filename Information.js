@@ -81,7 +81,7 @@ const lastTapRef = useRef(null);
         <ScrollView contentContainerStyle={styles.scrollContent}>
       <View style={styles.overlay}>
       <View style={styles.blackTitleCard}>
-        <Text style={styles.title}>{currentMovie.original_title}</Text>
+        <Text style={styles.title}>{currentMovie.original_title || currentMovie.title || 'Untitled'}</Text>
         <Text style={styles.information}>{`${genres} • ${year}`}</Text>
         <View style={styles.blackDescriptionCard}>
         <Text style={styles.description}>{currentMovie.overview}</Text>
@@ -92,7 +92,7 @@ const lastTapRef = useRef(null);
   
       <Text style={styles.heading}>
       {starRating
-      ? `Rated "${currentMovie.original_title}" with ${starRating} Star${starRating > 1 ? 's' : ''}`
+      ? `Rated "${currentMovie.original_title || currentMovie.title || 'Untitled'}" with ${starRating} Star${starRating > 1 ? 's' : ''}`
       : 'Tap to rate'}
       </Text>
       <RatingsFromFBD
@@ -102,6 +102,7 @@ const lastTapRef = useRef(null);
         moviePoster={currentMovie.poster_path}
         movieBackdrop={currentMovie.backdrop_path}
         movieReleaseDate={currentMovie.release_date}
+        movieOverview={currentMovie.overview}
       />
     </View>
   );

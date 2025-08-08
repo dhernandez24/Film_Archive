@@ -11,7 +11,8 @@ const RatingsFromFBD = ({
   onRatingChange,
   moviePoster,      
   movieBackdrop,     
-  movieReleaseDate,}) => {
+  movieReleaseDate,
+  movieOverview,}) => {
   const starOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [rating, setRating] = useState(null);
   const animatedButtonScale = new Animated.Value(1);
@@ -46,7 +47,8 @@ const RatingsFromFBD = ({
         poster_path: moviePoster,
         backdrop_path: movieBackdrop,
         release_date: movieReleaseDate,
-        movieId: movieId
+        movieId: movieId,
+        overwiew: movieOverview,
       });
       lastTap.current = null;
       return;
@@ -64,7 +66,8 @@ const RatingsFromFBD = ({
       poster_path: moviePoster,
       backdrop_path: movieBackdrop,
       release_date: movieReleaseDate,
-      movieId: movieId
+      movieId: movieId,
+      overview: movieOverview
 
     });
     lastTap.current = now;

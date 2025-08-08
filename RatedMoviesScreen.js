@@ -60,6 +60,7 @@ const RatedMoviesScreen = () => {
   };
 
 const TMDB_IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
+
 const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -117,7 +118,8 @@ const renderItem = ({ item }) => {
           />
           
         </TouchableOpacity>
-   
+  console.log("Navigating with movie:", movie);
+
       <FlatList
                 data={results}
                 keyExtractor={(item) => item.id.toString()}
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
   },
   blackHeader: {
     width: '100%',
-    height: 80,
+    height: 85,
     backgroundColor: '#252525',
     paddingHorizontal: 15,
     flexDirection: 'row',

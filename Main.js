@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   blackHeader: {
     width: '100%',
-    height: 80,
+    height: 85,
     backgroundColor: '#252525',
     paddingHorizontal: 15,
     flexDirection: 'row',

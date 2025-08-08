@@ -46,6 +46,8 @@ useEffect(() => {
 
   fetchRatedMovies();
 }, []);
+
+
   return (
     <SafeAreaView style={styles.safeArea}>
     <View style={styles.blackHeader}>
@@ -98,18 +100,24 @@ useEffect(() => {
       <View style={styles.invisibleLine} />
 
       <View style={styles.ratingsSection}>
-      <ScrollView
+    <ScrollView
         horizontal showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}>
-        {ratedMovies.slice(0,7).map((movie, index) => (
-        <View key={movie.movieId || index} style={styles.ratingCard}>
-      <Image source={{ uri: `https://image.tmdb.org/t/p/w200${movie.poster_path}` }} 
-      style={styles.posterBox} />
-    <Text style={styles.movieTitle}>{movie.title}</Text>
 
-  </View>
-))}
+      {ratedMovies.slice(0,7).map((movie, index) => (
 
+      <TouchableOpacity 
+        key={movie.movieId || index} 
+        style={styles.ratingCard}
+        onPress={() => navigation.navigate('Information', { item: movie })}
+        >
+        <Image 
+          source={{ uri: `https://image.tmdb.org/t/p/w200${movie.poster_path}` }} 
+          style={styles.posterBox}
+        />
+        <Text style={styles.movieTitle}>{movie.title}</Text>
+      </TouchableOpacity>
+    ))}
       </ScrollView>
       </View>
       <View style={styles.invisibleLine} />
@@ -151,7 +159,7 @@ const styles = StyleSheet.create({
 
   blackHeader: {
     width: '100%',
-    height: 100,
+    height: 85,
     backgroundColor: '#252525',
     paddingHorizontal: 15,
     flexDirection: 'row',
