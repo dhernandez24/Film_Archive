@@ -121,7 +121,7 @@ useEffect(() => {
       </ScrollView>
       </View>
       <View style={styles.invisibleLine} />
-        <Text style={styles.subtitle}>Recommended</Text>
+        <Text style={styles.subtitle}>Recommended ---- </Text>
      
       <View style={styles.ratingsSection}>
       <ScrollView
