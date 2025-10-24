@@ -76,7 +76,7 @@ const Main = () => {
 />
         <View style={styles.textWrapper}>
           <Text style={styles.listItemTitle}>
-            {item.original_title || item.title || 'Untitled'}
+            {item.title}
           </Text>
           <Text style={styles.listItemDate}>{item.release_date || 'Unknown'}</Text>
         </View>
