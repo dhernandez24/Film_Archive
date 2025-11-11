@@ -11,7 +11,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+
  import { useNavigation } from '@react-navigation/native';
+ 
 const ProfileSettings = () => {
 const navigation = useNavigation();
 
@@ -52,6 +54,50 @@ const navigation = useNavigation();
       
     </View>
 
+
+
+    <Text style={styles.settingText}>Profile</Text>
+      
+    <View style={styles.line} />
+   <TouchableOpacity
+           style={styles.buttonTwo}
+           onPress={() => navigation.navigate('SignUp')}>
+           <Text style={styles.buttonTwoText}>Change Email</Text>
+           
+       </TouchableOpacity>
+         
+    <TouchableOpacity
+           style={styles.buttonTwo}
+           onPress={() => navigation.navigate('SignUp')}>
+           <Text style={styles.buttonTwoText}>Change Password</Text>
+       </TouchableOpacity>
+
+    <Text style={styles.settingText}>Notifications</Text>
+  <View style={styles.line} />
+    <Image
+                  source={require('./assets/check_box.png')} 
+                  style={styles.check_box}
+                />
+    <Text style={styles.settingText}>Delete Account</Text>
+      
+    <View style={styles.line} />
+    <TouchableOpacity
+           style={styles.buttonTwo}
+           onPress={() => navigation.navigate('SignUp')}>
+           <Text style={styles.buttonTwoText}>Enter Password</Text>
+  
+           <Image
+                  source={require('./assets/arrow_drop_down.png')} 
+                  style={styles.dropDown}
+                />
+       </TouchableOpacity>
+    <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('SignUp')}>
+            <Text style={styles.buttonText}>Save Changes</Text>
+          </TouchableOpacity>
+    
+
     </SafeAreaView>
   );
 };
@@ -79,7 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#612626',
     height: 200,
     paddingHorizontal: 15,
-    
+  
     //flexDirection: 'row',
     alignItems: 'center',
     //justifyContent: 'space-between',
@@ -121,6 +167,13 @@ const styles = StyleSheet.create({
       textShadowOffset: { width: 0, height: 4 },
       fontFamily: 'Istok Web',
   },
+  defaultText: {
+      marginTop: 15,
+      marginLeft: 25,
+      fontSize: 15,
+      textShadowColor: 'rgba(0, 0, 0, 0.25)',
+      fontFamily: 'Istok Web',
+  },
   settingText: {
       marginTop: 30,
       marginLeft: 25,
@@ -130,14 +183,43 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#252525',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    width: 115,
+    height: 27,
+    marginTop:25,
+    marginLeft:155,
+   
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 8,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
+    fontWeight: '700',
   },
+  buttonTwo: {
+    backgroundColor: '#D9D9D9',
+    width: 380,
+    height: 30,
+    marginTop:20,
+    marginLeft:25,
+    borderRadius: 8,
+  },
+  buttonTwoText: {
+    marginLeft: 10,
+    marginTop: 7,
+    color: '#000',
+    fontSize: 12,
+  },
+    line: {
+    width: 393.5,
+    height: 1,
+    backgroundColor: '#000',
+    transform: [{ rotate: '-0.186deg' }],
+    flexShrink: 0,
+    marginLeft:25,
+    marginTop: 15,
+  },  
     goBackButton: {
       position: 'absolute',
       top: 20,        
@@ -152,6 +234,22 @@ const styles = StyleSheet.create({
       height: '100%',
       transform: [{ rotate: '179.656deg' }],
     },
+    dropDown: {
+      width: 30,
+      height: 30,
+      top: 0,
+      position: 'absolute',
+      right: 10,
+      transform: [{ rotate: '-90deg' }], 
+    },
+    check_box: {
+      width: 20,
+      height: 20,
+      marginTop:10,
+      marginLeft:30,
+    },
+
+
 });
 
 export default ProfileSettings;
