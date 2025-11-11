@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from './FirebaseController';
 import { collection, getDocs } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const user = auth.currentUser;
 /// dummy data for recommended: 
@@ -30,6 +31,15 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const [ratedMovies, setRatedMovies] = useState([]);
+  const [email, setEmail] = useState(''); 
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setEmail(user?.email ?? '');
+      setDisplayName(user?.displayName ?? null);
+    });
+    return unsub;
+  }, []);
 useEffect(() => {
   const fetchRatedMovies = async () => {
     const user = auth.currentUser;
@@ -76,7 +86,7 @@ useEffect(() => {
     </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.welcome}>Welcome, </Text>
+          <Text style={styles.welcome}>Welcome,{email} </Text>
           <View style={styles.line} />
           <Text style={styles.subtitle}>Featured today</Text>
         </View>
