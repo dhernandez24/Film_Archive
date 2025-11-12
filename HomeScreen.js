@@ -18,6 +18,7 @@ const user = auth.currentUser;
 /// dummy data for recommended: 
 //ask about ai recommendionation 
 const dummyData2 = [
+
   { title: 'Movie_title' },
   { title: 'Movie_title' },
   { title: 'Movie_title' },
@@ -34,11 +35,13 @@ const HomeScreen = () => {
   const [email, setEmail] = useState(''); 
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
+    const name = onAuthStateChanged(auth, (user) => {
       setEmail(user?.email ?? '');
       setDisplayName(user?.displayName ?? null);
     });
-    return unsub;
+    return name;
+
+    
   }, []);
 useEffect(() => {
   const fetchRatedMovies = async () => {
@@ -86,7 +89,7 @@ useEffect(() => {
     </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.contentWrapper}>
-          <Text style={styles.welcome}>Welcome,{email} </Text>
+          <Text style={styles.welcome}>Welcome, {email} </Text>
           <View style={styles.line} />
           <Text style={styles.subtitle}>Featured today</Text>
         </View>
@@ -217,7 +220,7 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 4,
     fontFamily: 'Istok Web',
-    fontSize: 25,
+    fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '400',
     lineHeight: 58, 

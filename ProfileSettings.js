@@ -13,12 +13,23 @@ import {
 
 
  import { useNavigation } from '@react-navigation/native';
- 
+import { auth, db } from './FirebaseController';
+import { collection, getDocs } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+
+
 const ProfileSettings = () => {
 const navigation = useNavigation();
+const [email, setEmail] = useState(''); 
+
 
   useEffect(() => {
-
+    const name = onAuthStateChanged(auth, (user) => {
+      setEmail(user?.email ?? '');
+      setDisplayName(user?.displayName ?? null);
+    });
+    return name;
+    
   }, []);
 
   return (
@@ -41,10 +52,10 @@ const navigation = useNavigation();
 
     <View style={styles.redHeader}>
       <Image source={require('./assets/Ellipse.png')} style={styles.profilePicture} />
-    <Text style={styles.email}>hernandezdalila018@gmail.com</Text>
+    <Text style={styles.email}>{email}</Text>
       <TouchableOpacity
                 style={styles.text}
-                //onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate('Welcome')}
                 activeOpacity={0.7}
               >
                  <Text style={styles.text}>Log Out</Text>
