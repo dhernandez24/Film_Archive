@@ -41,7 +41,7 @@ const HomeScreen = () => {
     });
     return name;
 
-    
+
   }, []);
 useEffect(() => {
   const fetchRatedMovies = async () => {
@@ -199,12 +199,12 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: 8,
-    backgroundColor: '#fff6f6',
+    backgroundColor: '#fff',
   },
   whiteSearchBar: {
     flex: 1,
     height: '100%',
-    backgroundColor: '#fff6f6',
+    backgroundColor: '#fff',
   },
   icon: {
     width: 37,
