@@ -9,12 +9,9 @@ import SignUp from './SignUp';
 import HomeScreen from './HomeScreen';
 import RatedMoviesScreen from './RatedMoviesScreen';
 import ProfileSettings from './ProfileSettings';
+import DeleteAccount from './DeleteAccount';
 
 const Stack = createStackNavigator();
-
-
-
-
 
 
 export default function App() {
@@ -28,6 +25,7 @@ export default function App() {
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="RatedMoviesScreen" component={RatedMoviesScreen} />
         <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
+        <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
     
       </Stack.Navigator>
     </NavigationContainer>

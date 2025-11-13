@@ -94,7 +94,7 @@ const [email, setEmail] = useState('');
     <View style={styles.line} />
     <TouchableOpacity
            style={styles.buttonTwo}
-           onPress={() => navigation.navigate('SignUp')}>
+           onPress={() => navigation.navigate('DeleteAccount')}>
            <Text style={styles.buttonTwoText}>Enter Password</Text>
   
            <Image
