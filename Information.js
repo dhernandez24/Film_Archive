@@ -103,6 +103,7 @@ const lastTapRef = useRef(null);
         movieBackdrop={currentMovie.backdrop_path}
         movieReleaseDate={currentMovie.release_date}
         movieOverview={currentMovie.overview}
+        genreIds={currentMovie.genre_ids }
       />
     </View>
   );

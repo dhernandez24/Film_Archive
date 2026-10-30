@@ -118,7 +118,7 @@ const renderItem = ({ item }) => {
           />
           
         </TouchableOpacity>
-  console.log("Navigating with movie:", movie);
+
 
       <FlatList
                 data={results}
