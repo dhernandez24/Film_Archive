@@ -41,11 +41,15 @@ const searchForMovie = async (searchText) => {
 }
 
 const Main = () => { 
-  const navigation = useNavigation();
-  const [text, setText] = useState('');
-  const [results, setResults] = useState([]);
+
   const route = useRoute();
-  const incomingQuery = route.params?.query;
+const incomingQuery = route.params?.query;
+
+  const navigation = useNavigation();
+
+const [text, setText] = useState(incomingQuery || '');
+const [results, setResults] = useState([]);
+
   useEffect(() => {
     const queryToSearch = incomingQuery || text;
     if (queryToSearch) {
@@ -127,8 +131,10 @@ const Main = () => {
         <Image source={require('./assets/profile.png')} style={styles.icon} />
       </TouchableOpacity>
         </View>
-        <Text style={styles.welcome}>Results for "{text}":</Text>
-      
+        <Text style={styles.welcome}>
+      Results for "{incomingQuery || text}":
+  </Text>
+        
         <FlatList
           data={results}
           keyExtractor={(item) => item.id.toString()}
