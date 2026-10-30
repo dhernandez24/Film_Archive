@@ -80,13 +80,13 @@ const renderItem = ({ item }) => {
 
   style={styles.backdropImage}
 />
-        <View style={styles.textWrapper}>
+       <View style={styles.textWrapper}>
           <Text style={styles.listItemTitle}>
-            {item.original_title || item.title || 'Untitled'}
+              {item.title || item.original_title || 'Unknown Movie'}
           </Text>
-          <Text style={styles.listItemDate}>{item.release_date || 'Unknown'}</Text>
+
           {renderStars(item.stars || 0)}
-        </View>
+      </View>
   
         <Text style={styles.threeDots}>•••</Text>
       </TouchableOpacity>

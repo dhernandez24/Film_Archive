@@ -9,11 +9,14 @@ import {
   ScrollView,
   Text
 } from 'react-native';
+
 import { useNavigation } from '@react-navigation/native';
 import FirebaseAuth from './FirebaseController';
 import { auth, db } from './FirebaseController';
-import { collection, getDocs } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { collection,doc, getDocs,updateDoc, deleteField,deleteDoc } from 'firebase/firestore';
+import { EmailAuthProvider,
+   reauthenticateWithCredential,
+  deleteUser } from 'firebase/auth';
 
 
 const Separator = () => <View style={styles.separator} />; 
@@ -26,22 +29,21 @@ const DeleteAccount = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+const handleDeleteAccount = async () => {
+  try {
+    const user = auth.currentUser;
+    await deleteDoc(doc(db, 'users', user.uid));
+    const credential = EmailAuthProvider.credential(user.email,password);
+    await reauthenticateWithCredential(user, credential);
+    await deleteUser(user);
 
+    navigation.navigate('Welcome');
 
-
-const handleDeleteAccount = async () => {       
-
-    try {
-        const user = auth.currentUser;
-        await user.delete();
-        navigation.navigate('Welcome'); 
-    }
-
-    catch (error) {
-        console.log(error);
-        alert("Error deleting account: " + error.message);
-    }
-}
+  } catch (e) {
+    console.log(e);
+    alert(e.message);
+  }
+};
   return (
     <SafeAreaView style={styles.container}>
       
@@ -70,19 +72,41 @@ const handleDeleteAccount = async () => {
          
       
       <Text style={styles.fixToText2}> To confirm this, type your current password </Text>
-      <TextInput
-        style={styles.login}
-
-        placeholder="Enter your password"
-      />
+      <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.login}
+            value={password}
+            placeholder="Enter your password"
+            onChangeText={setPassword}
+            secureTextEntry={!passwordVisible} 
+            />
+           <TouchableOpacity
+             onPress={() => setPasswordVisible(!passwordVisible)} 
+             style={styles.showHideButton}
+            >
+            <Text>{passwordVisible ? 'Hide' : 'Show'}</Text>
+            </TouchableOpacity>
+            </View>
       
 
       <Separator />
 
       <TouchableOpacity
-        style={styles.button}>
+        style={styles.button}
+        onPress={handleDeleteAccount}>
         <Text style={styles.buttonText}>Delete Account</Text>
       </TouchableOpacity> 
+       <Separator2 />
+      <TouchableOpacity
+        style={styles.button2}
+        onPress={() => navigation.goBack()}>
+        <Text style={styles.buttonText}>Cancel </Text>
+
+
+      </TouchableOpacity> 
+
+
+
     </SafeAreaView>
   );
 };
@@ -121,9 +145,16 @@ const styles = StyleSheet.create({
   button: {
     bottom: 20,
     width: '90%',
-    borderWidth: 2,
     borderRadius: 15,
-    borderColor: 'black',
+    backgroundColor: '#612626',
+    alignItems: 'center',
+    padding: 10,
+    marginTop: 10,
+  },
+  button2: {
+    bottom: 20,
+    width: '90%',
+    borderRadius: 15,
     backgroundColor: 'black',
     alignItems: 'center',
     padding: 10,

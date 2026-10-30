@@ -71,6 +71,8 @@ return (
       <Text>{passwordVisible ? 'Hide' : 'Show'}</Text>
       </TouchableOpacity>
       </View>
+
+      
       <TouchableOpacity  style={styles.forgotPasswordButton}>
         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
@@ -87,6 +89,8 @@ return (
         
         <Text style={styles.createAccountText}>Create Account</Text>
       </TouchableOpacity>
+
+
     </View>
   );
 }

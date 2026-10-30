@@ -61,7 +61,7 @@ const year = currentMovie.release_date
 const navigation = useNavigation();
 const lastTapRef = useRef(null);
 
-//console.log("MOVIE DATA:", currentMovie);
+
   return (
     <View style={styles.container}>
         <TouchableOpacity

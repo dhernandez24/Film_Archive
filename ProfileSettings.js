@@ -17,6 +17,8 @@ import { auth, db } from './FirebaseController';
 import { collection, getDocs } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 
+///
+//  for later user management options
 
 const ProfileSettings = () => {
 const navigation = useNavigation();
@@ -61,11 +63,10 @@ const [email, setEmail] = useState('');
                  <Text style={styles.text}>Log Out</Text>
               </TouchableOpacity>
     </View>
-    <Text style={styles.settingText}>Account Settings</Text>
-      
-    </View>
-
-
+    <Text style={styles.settingText}> My Account </Text>
+    
+    </View> 
+     
 
     <Text style={styles.settingText}>Profile</Text>
       
@@ -103,8 +104,8 @@ const [email, setEmail] = useState('');
                 />
        </TouchableOpacity>
     <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('SignUp')}>
+            style={styles.button}>
+            
             <Text style={styles.buttonText}>Save Changes</Text>
           </TouchableOpacity>
     
